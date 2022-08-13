@@ -221,38 +221,15 @@ func createDbfile(dbName string) {
 	emptyFile.Close()
 }
 
-// // read database file
-// func readDbfile() {
-// 	file, err := os.Open("db.json")
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
-// 	defer file.Close()
-
-// 	scanner := bufio.NewScanner(file)
-// 	for scanner.Scan() {
-// 		fmt.Println(scanner.Text())
-// 	}
-// }
-
 func readJsonFile() []any {
 	file, _ := os.ReadFile(dbFileName)
 	var data []any
-	// m := map[string]string{}
-	// err := json.Unmarshal([]byte(file), &m)
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// return m
 	lib.ParsedJSON(file, &data)
 	return data
 }
 
 // write data to database file
 func appendDataToDbfile(filename string, data any) {
-	// file, _ := json.MarshalIndent(content, "", " ")
-	// _ = ioutil.WriteFile(filename, file, 0644)
-
 	file, _ := json.Marshal(data)
 
 	f, err := os.OpenFile(filename, os.O_RDWR|os.O_APPEND|os.O_CREATE, 0660)
@@ -269,7 +246,7 @@ func writeDataToDoc(filename string, docName string, data any) {
 	appendDataToDbfile(filename, data)
 }
 
-// CLI based db operations
+// CLI based simple db operations for store in memory
 func DB() {
 
 	var cmd string
