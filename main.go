@@ -22,9 +22,54 @@ func main() {
 	re := regexp.MustCompile(`'([^']*)'`)
 
 	compile(query, re, reBracket)
+}
+
+func compile(text string, re *regexp.Regexp, reBracket *regexp.Regexp) {
+	extractDoc := Parser(text, reBracket)
+	extractData := Parser(text, re)
+
+	tokens := Tokenize(text)
 
 	createDbDoc("user")
 	readDbfile()
+
+	fmt.Println(extractDoc)
+	fmt.Println(extractData)
+	fmt.Println(tokens[0])
+
+	// crud oprations
+	switch tokens[0] {
+	case "add":
+		fmt.Println("add")
+	}
+}
+
+func Tokenize(text string) []string {
+	keywords := strings.Split(text, " ")
+	// for _, keyword := range keywords {
+	// 	if re.MatchString(keyword) {
+	// 		fmt.Println(re.FindStringSubmatch(keyword))
+	// 	}
+	// }
+	return keywords
+}
+
+func Parser(text string, re *regexp.Regexp) []string {
+	var arr []string
+
+	// fmt.Printf("Pattern: %v\n", re.String())      // print pattern
+	// fmt.Println("Matched:", re.MatchString(text)) // true
+
+	// fmt.Println("\nText between square brackets:")
+	submatchall := re.FindAllString(text, -1)
+	for _, element := range submatchall {
+		element = strings.Trim(element, "'")
+		element = strings.Trim(element, "[")
+		element = strings.Trim(element, "]")
+		// fmt.Println(element)
+		arr = append(arr, element)
+	}
+	return arr
 }
 
 // create db document
@@ -71,48 +116,13 @@ func appendDatatoDbfile(filename string, content string) {
 	fmt.Fprintf(f, "%s\n", content)
 }
 
-func compile(text string, re *regexp.Regexp, reBracket *regexp.Regexp) {
-	extractDoc := Parser(text, reBracket)
-	extractData := Parser(text, re)
-
-	fmt.Println(extractDoc)
-	fmt.Println(extractData)
-}
-
-func Parser(text string, re *regexp.Regexp) []string {
-	var arr []string
-
-	// keywords := strings.Split(text, " ")
-
-	// for _, keyword := range keywords {
-	// 	if re.MatchString(keyword) {
-	// 		fmt.Println(re.FindStringSubmatch(keyword))
-	// 	}
-	// }
-	// fmt.Println(keywords[0])
-
-	// fmt.Printf("Pattern: %v\n", re.String())      // print pattern
-	// fmt.Println("Matched:", re.MatchString(text)) // true
-
-	// fmt.Println("\nText between square brackets:")
-	submatchall := re.FindAllString(text, -1)
-	for _, element := range submatchall {
-		element = strings.Trim(element, "'")
-		element = strings.Trim(element, "[")
-		element = strings.Trim(element, "]")
-		// fmt.Println(element)
-		arr = append(arr, element)
-	}
-	return arr
-}
-
 func DB() {
 
 	var cmd string
 	var db = map[string]string{}
 
 	fmt.Println("Welcome to the simplest key-value database")
-	for true {
+	for {
 
 		fmt.Println("Enter command")
 		fmt.Scan(&cmd)
