@@ -76,24 +76,17 @@ func compile(text string) {
 		}
 	case "add":
 		// add data to db document
-		// fmt.Println(m["user"])
 		dbData := readJsonFile()
 
 		docName := extractDoc[0]
 		data := extractData
-
 		arr := []any{}
 
 		for i := 0; i < len(data); i++ {
 			dbData[extractDoc[0]] = data[i]
 			arr = append(arr, dbData)
 		}
-		// fmt.Println(arr)
 		writeDataToDoc("db.json", docName, arr)
-		// for i := 0; i < len(data); i++ {
-		// 	dbData[extractDoc[0]] = data[i]
-		// 	writeDataToDoc("db.json", docName, dbData)
-		// }
 	default:
 		fmt.Println("Invalid commad")
 
