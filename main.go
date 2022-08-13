@@ -73,7 +73,7 @@ func compile(text string) {
 
 	extractDoc := Parser(text, reBracket)
 	extractData := Parser(text, re)
-	tokens := Tokenize(text)
+	tokens := Tokenize(text, " ")
 
 	// crud oprations
 	switch tokens[0] {
@@ -104,8 +104,11 @@ func compile(text string) {
 }
 
 // get tokens from query
-func Tokenize(text string) []string {
-	keywords := strings.Split(text, " ")
+func Tokenize(text string, deli string) []string {
+	if deli == "" {
+		deli = " "
+	}
+	keywords := strings.Split(text, deli)
 	return keywords
 }
 
