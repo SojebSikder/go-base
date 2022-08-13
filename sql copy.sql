@@ -1,2 +1,2 @@
 -- create [user]
-add [user] 'sojeb' 'sikder'
+insert [user] 'sojeb' 'sikder'

@@ -84,7 +84,7 @@ func compile(text string) {
 			createDbDoc(docName[i])
 		}
 
-	case "add":
+	case "insert":
 		// add data to db document
 		dbData := readJsonFile()
 
