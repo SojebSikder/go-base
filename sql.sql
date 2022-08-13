@@ -1,2 +1,1 @@
-create [user];
-insert [user] 'sojeb' 'sikder'
+create [user];insert [user] 'sojeb' 'sikder'

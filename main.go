@@ -66,8 +66,10 @@ func main() {
 
 // compile query
 func precompile(text string) {
-	// tokens := Tokenize(text, " ")
-	compile(string(text))
+	tokens := Tokenize(text, ";")
+	for i := 0; i < len(tokens); i++ {
+		compile(string(tokens[i]))
+	}
 }
 
 // compile query
