@@ -38,12 +38,15 @@ func compile(text string) {
 	case "add":
 		// add data to db document
 		// fmt.Println(m["user"])
+		dbData := readJsonFile()
+
 		docName := extractDoc[0]
 		data := extractData
 
 		for i := 0; i < len(data); i++ {
 			fmt.Println(data[i])
-			writeDataToDoc("db.json", docName, data[i])
+			dbData[extractDoc[0]] = data[i]
+			writeDataToDoc("db.json", docName, dbData)
 		}
 	default:
 		fmt.Println("Invalid commadn")
@@ -54,11 +57,6 @@ func compile(text string) {
 // get tokens from query
 func Tokenize(text string) []string {
 	keywords := strings.Split(text, " ")
-	// for _, keyword := range keywords {
-	// 	if re.MatchString(keyword) {
-	// 		fmt.Println(re.FindStringSubmatch(keyword))
-	// 	}
-	// }
 	return keywords
 }
 
@@ -66,10 +64,6 @@ func Tokenize(text string) []string {
 func Parser(text string, re *regexp.Regexp) []string {
 	var arr []string
 
-	// fmt.Printf("Pattern: %v\n", re.String())      // print pattern
-	// fmt.Println("Matched:", re.MatchString(text)) // true
-
-	// fmt.Println("\nText between square brackets:")
 	submatchall := re.FindAllString(text, -1)
 	for _, element := range submatchall {
 		element = strings.Trim(element, "'")
@@ -113,14 +107,14 @@ func readDbfile() {
 	}
 }
 
-func readJsonFile() any{
+func readJsonFile() map[string]string {
 	file, _ := ioutil.ReadFile("db.json")
 	m := map[string]string{}
 	err := json.Unmarshal([]byte(file), &m)
 	if err != nil {
 		panic(err)
 	}
-	return m;
+	return m
 }
 
 // write data to database file
@@ -140,8 +134,6 @@ func writeDataToDoc(filename string, docName string, data any) {
 	defer f.Close()
 
 	fmt.Fprintf(f, "%s\n", file)
-
-	// _ = ioutil.WriteFile(filename, file, 0644)
 }
 
 // CLI based db operations
