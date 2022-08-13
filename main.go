@@ -12,10 +12,11 @@ import (
 )
 
 func main() {
-	query := "create [user]"
+	// query := "create [user]"
 	// query := "add [user] 'sojeb' 'sikder'"
 
-	compile(query)
+	// compile(query)
+	readJsonFile()
 }
 
 // compile query
@@ -37,6 +38,8 @@ func compile(text string) {
 		createDbDoc(docName)
 	case "add":
 		// add data to db document
+		// globalData := map[string]string{}
+		// globalData = readDbfile()
 		docName := extractDoc[0]
 		data := extractData
 
@@ -110,6 +113,21 @@ func readDbfile() {
 	for scanner.Scan() {
 		fmt.Println(scanner.Text())
 	}
+}
+
+func readJsonFile() {
+	file, err := os.Open("db.json")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		data := scanner.Text()
+		fmt.Println(data)
+	}
+
 }
 
 // write data to database file
