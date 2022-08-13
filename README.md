@@ -22,7 +22,7 @@ go run main.go run file.sql
   ```sql
   create db [blog]
   ```
-- Set database in sql file
+- Select database in sql file
   ```sql
   set db [blog]
   ```
