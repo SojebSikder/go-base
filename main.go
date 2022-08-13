@@ -65,9 +65,9 @@ func main() {
 					// create new database file
 					ok := lib.YesNoPrompt("db not exist, create new one? (y/n): ")
 					if ok {
-						fmt.Println("enter new database name -> ")
 						var text string
-						fmt.Scanln(&text)
+						fmt.Print("enter new database name -> ")
+						fmt.Scan(&text)
 						precompile(string("create db [" + text + "]"))
 						fmt.Println("Database created: " + dbFileName)
 					} else {
