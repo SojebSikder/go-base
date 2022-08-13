@@ -12,14 +12,13 @@ import (
 )
 
 func main() {
-	// DB()
-	// str1 := "this is a [sample] [[string]] with [SOME] special words"
-	// query := "create [user]"
-	query := "add [user] 'sojeb' 'sikder'"
+	query := "create [user]"
+	// query := "add [user] 'sojeb' 'sikder'"
 
 	compile(query)
 }
 
+// compile query
 func compile(text string) {
 	// regex for brackets
 	reBracket := regexp.MustCompile(`\[([^\[\]]*)\]`)
@@ -51,6 +50,7 @@ func compile(text string) {
 	}
 }
 
+// get tokens from query
 func Tokenize(text string) []string {
 	keywords := strings.Split(text, " ")
 	// for _, keyword := range keywords {
@@ -61,6 +61,7 @@ func Tokenize(text string) []string {
 	return keywords
 }
 
+// parse query for brackets, single quote
 func Parser(text string, re *regexp.Regexp) []string {
 	var arr []string
 
@@ -82,9 +83,9 @@ func Parser(text string, re *regexp.Regexp) []string {
 // create db document
 func createDbDoc(docName string) {
 	var db = map[string]string{}
-	db[docName] = "{" + docName + ":{}}"
+	db[docName] = "{}"
 	// createDbfile()
-	appendDataToDbfile("db.json", db[docName])
+	appendDataToDbfile("db.json", db)
 }
 
 // create file for database
@@ -112,7 +113,7 @@ func readDbfile() {
 }
 
 // write data to database file
-func appendDataToDbfile(filename string, content string) {
+func appendDataToDbfile(filename string, content any) {
 	file, _ := json.MarshalIndent(content, "", " ")
 	_ = ioutil.WriteFile(filename, file, 0644)
 }
@@ -132,7 +133,7 @@ func writeDataToDoc(filename string, docName string, data any) {
 	// _ = ioutil.WriteFile(filename, file, 0644)
 }
 
-// cli based db operations
+// CLI based db operations
 func DB() {
 
 	var cmd string
