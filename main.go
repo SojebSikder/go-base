@@ -43,11 +43,20 @@ func main() {
 				compile(string(content))
 			}
 		} else if arg == "cli" {
-			fmt.Println("Enter your query")
-			reader := bufio.NewReader(os.Stdin)
-			text, _ := reader.ReadString('\n')
-			fmt.Println("query executed")
-			compile(string(text))
+			for {
+				fmt.Print("db> ")
+				reader := bufio.NewReader(os.Stdin)
+				text, _ := reader.ReadString('\n')
+
+				if text == "exit\n" {
+					break
+				} else {
+					compile(string(text))
+					fmt.Println("query executed")
+				}
+
+			}
+
 		} else {
 			fmt.Println("Invalid command")
 		}
