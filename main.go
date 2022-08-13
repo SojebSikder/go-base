@@ -17,15 +17,15 @@ func main() {
 	// query := "create [user]"
 	query := "add [user] 'sojeb' 'sikder'"
 
+	compile(query)
+}
+
+func compile(text string) {
 	// regex for brackets
 	reBracket := regexp.MustCompile(`\[([^\[\]]*)\]`)
 	// regex for single quotes
 	re := regexp.MustCompile(`'([^']*)'`)
 
-	compile(query, re, reBracket)
-}
-
-func compile(text string, re *regexp.Regexp, reBracket *regexp.Regexp) {
 	extractDoc := Parser(text, reBracket)
 	extractData := Parser(text, re)
 	tokens := Tokenize(text)
@@ -33,10 +33,11 @@ func compile(text string, re *regexp.Regexp, reBracket *regexp.Regexp) {
 	// crud oprations
 	switch tokens[0] {
 	case "create":
-		docName := extractDoc[0]
 		// create db document
+		docName := extractDoc[0]
 		createDbDoc(docName)
 	case "add":
+		// add data to db document
 		docName := extractDoc[0]
 		data := extractData
 
