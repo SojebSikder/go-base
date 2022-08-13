@@ -13,32 +13,44 @@ import (
 )
 
 func main() {
-	arg := os.Args[1]
+
+	appName := "go-db"
+	version := "0.0.1"
 
 	// query := "create [user]"
 	// query := "add [user] 'sojeb' 'sikder'"
 
-	if arg == "run" {
-		fileName := os.Args[2]
-		_, err := os.Stat(fileName)
+	if len(os.Args) < 2 {
+		// run interactive mode
+		fmt.Println("Welcome to simple db named as go-db")
+	} else {
+		arg := os.Args[1]
+		if arg == "version" {
+			fmt.Println(appName + ": " + version)
+		} else if arg == "run" {
+			fileName := os.Args[2]
+			_, err := os.Stat(fileName)
 
-		if errors.Is(err, os.ErrNotExist) {
-			fmt.Println("file does not exist")
-		} else {
+			if errors.Is(err, os.ErrNotExist) {
+				fmt.Println("file does not exist")
+			} else {
 
-			content, err := ioutil.ReadFile(fileName)
+				content, err := ioutil.ReadFile(fileName)
 
-			if err != nil {
-				log.Fatal(err)
+				if err != nil {
+					log.Fatal(err)
+				}
+				compile(string(content))
 			}
-			compile(string(content))
+		} else if arg == "cli" {
+			fmt.Println("Enter your query")
+			reader := bufio.NewReader(os.Stdin)
+			text, _ := reader.ReadString('\n')
+			fmt.Println("query executed")
+			compile(string(text))
+		} else {
+			fmt.Println("Invalid command")
 		}
-	} else if arg == "cli" {
-		fmt.Println("Enter your query")
-		reader := bufio.NewReader(os.Stdin)
-		text, _ := reader.ReadString('\n')
-		fmt.Println("query executed")
-		compile(string(text))
 	}
 
 }
@@ -108,29 +120,29 @@ func createDbDoc(docName string) {
 	appendDataToDbfile("db.json", db)
 }
 
-// create file for database
-func createDbfile() {
-	emptyFile, err := os.Create("db.json")
-	if err != nil {
-		log.Fatal(err)
-	}
-	log.Println(emptyFile)
-	emptyFile.Close()
-}
+// // create file for database
+// func createDbfile() {
+// 	emptyFile, err := os.Create("db.json")
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
+// 	log.Println(emptyFile)
+// 	emptyFile.Close()
+// }
 
-// read database file
-func readDbfile() {
-	file, err := os.Open("db.json")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer file.Close()
+// // read database file
+// func readDbfile() {
+// 	file, err := os.Open("db.json")
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
+// 	defer file.Close()
 
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		fmt.Println(scanner.Text())
-	}
-}
+// 	scanner := bufio.NewScanner(file)
+// 	for scanner.Scan() {
+// 		fmt.Println(scanner.Text())
+// 	}
+// }
 
 func readJsonFile() map[string]string {
 	file, _ := ioutil.ReadFile("db.json")
