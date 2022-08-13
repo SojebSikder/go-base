@@ -120,6 +120,7 @@ func createDbDoc(docName string) {
 	db[docName] = ""
 
 	// dbData := readJsonFile()
+	// fmt.Println(dbData)
 	// arr := []any{}
 	appendDataToDbfile("db.json", db)
 }
