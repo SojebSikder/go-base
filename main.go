@@ -64,7 +64,7 @@ func main() {
 
 }
 
-// compile query
+// break whole text into statements
 func precompile(text string) {
 	tokens := Tokenize(text, ";")
 	for i := 0; i < len(tokens); i++ {
@@ -136,10 +136,6 @@ func Parser(text string, re *regexp.Regexp) []string {
 func createDbDoc(docName string) {
 	var db = map[string]string{}
 	db[docName] = ""
-
-	// dbData := readJsonFile()
-	// fmt.Println(dbData)
-	// arr := []any{}
 	appendDataToDbfile(dbFileName, db)
 }
 
