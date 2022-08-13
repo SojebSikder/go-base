@@ -56,7 +56,7 @@ func main() {
 			if dbFileName == "" {
 				fmt.Print("Select database: ")
 				var dbName string
-				fmt.Scan(&dbName)
+				fmt.Scanln(&dbName)
 				dbFileName = dbFileNameDir + "/" + strings.Trim(dbName, "\n") + ".json"
 
 				_, err := os.Stat(dbFileName)
@@ -65,9 +65,9 @@ func main() {
 					// create new database file
 					ok := lib.YesNoPrompt("db not exist, create new one? (y/n): ")
 					if ok {
-						fmt.Print("enter new database name -> ")
+						fmt.Println("enter new database name -> ")
 						var text string
-						fmt.Scan(&text)
+						fmt.Scanln(&text)
 						precompile(string("create db [" + text + "]"))
 						fmt.Println("Database created: " + dbFileName)
 					} else {
