@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -12,10 +13,28 @@ import (
 )
 
 func main() {
-	query := "create [user]"
+	arg := os.Args[1]
+	fileName := os.Args[2]
+
+	// query := "create [user]"
 	// query := "add [user] 'sojeb' 'sikder'"
 
-	compile(query)
+	if arg == "run" {
+		_, err := os.Stat(fileName)
+
+		if errors.Is(err, os.ErrNotExist) {
+			fmt.Println("file does not exist")
+		} else {
+
+			content, err := ioutil.ReadFile(fileName)
+
+			if err != nil {
+				log.Fatal(err)
+			}
+			compile(string(content))
+		}
+	}
+
 }
 
 // compile query
@@ -49,7 +68,7 @@ func compile(text string) {
 			writeDataToDoc("db.json", docName, dbData)
 		}
 	default:
-		fmt.Println("Invalid commadn")
+		fmt.Println("Invalid commad")
 
 	}
 }
