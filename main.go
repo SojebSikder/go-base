@@ -74,6 +74,7 @@ func compile(text string) {
 		for i := 0; i < len(docName); i++ {
 			createDbDoc(docName[i])
 		}
+
 	case "add":
 		// add data to db document
 		dbData := readJsonFile()
@@ -117,10 +118,9 @@ func Parser(text string, re *regexp.Regexp) []string {
 func createDbDoc(docName string) {
 	var db = map[string]string{}
 	db[docName] = ""
+
+	// dbData := readJsonFile()
 	// arr := []any{}
-	// arr = append(arr, db)
-	// createDbfile()
-	// appendDataToDbfile("db.json", arr)
 	appendDataToDbfile("db.json", db)
 }
 
