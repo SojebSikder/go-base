@@ -18,6 +18,10 @@ go run main.go run file.sql
 
 ### Supported command:
 
+- Create database
+  ```sql
+  create db [blog]
+  ```
 - Create document:
 
   ```sql

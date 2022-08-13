@@ -13,7 +13,8 @@ import (
 )
 
 // db file name
-var dbFileName string = "db.json"
+var dbFileNameDir string = "db"
+var dbFileName string = ""
 
 func main() {
 
@@ -49,11 +50,19 @@ func main() {
 				precompile(string(content))
 			}
 		} else if arg == "cli" {
+			// first ask for database name
+			if dbFileName == "" {
+				fmt.Print("Select database: ")
+				reader := bufio.NewReader(os.Stdin)
+				dbName, _ := reader.ReadString('\n')
+				dbFileName = dbFileNameDir + "/" + strings.Trim(dbName, "\n") + ".json"
+				fmt.Println(dbFileName)
+			}
+
 			for {
 				fmt.Print("db> ")
 				reader := bufio.NewReader(os.Stdin)
 				text, _ := reader.ReadString('\n')
-
 				precompile(string(text))
 			}
 
@@ -86,10 +95,19 @@ func compile(text string) {
 	// crud oprations
 	switch tokens[0] {
 	case "create":
-		// create db document
-		docName := extractDoc
-		for i := 0; i < len(docName); i++ {
-			createDbDoc(docName[i])
+		fmt.Print(tokens[1])
+		if tokens[1] == "db" {
+			// create db file
+			fmt.Println("Creating database")
+			dbName := extractDoc[0]
+			createDbfile(dbFileNameDir + "/" + dbName + ".json")
+		} else {
+
+			// create db document
+			docName := extractDoc
+			for i := 0; i < len(docName); i++ {
+				createDbDoc(docName[i])
+			}
 		}
 	case "insert":
 		// add data to db document
@@ -140,14 +158,25 @@ func createDbDoc(docName string) {
 }
 
 // // create file for database
-// func createDbfile() {
-// 	emptyFile, err := os.Create("db.json")
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
-// 	log.Println(emptyFile)
-// 	emptyFile.Close()
-// }
+func createDbfile(dbName string) {
+	// create directory if not exists
+	_, err := os.Stat(dbFileNameDir)
+
+	if os.IsNotExist(err) {
+		errDir := os.MkdirAll(dbFileNameDir, 0755)
+		if errDir != nil {
+			log.Fatal(err)
+		}
+
+	}
+
+	emptyFile, err := os.Create(dbName)
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println(emptyFile)
+	emptyFile.Close()
+}
 
 // // read database file
 // func readDbfile() {
