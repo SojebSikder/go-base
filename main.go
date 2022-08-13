@@ -14,8 +14,8 @@ import (
 func main() {
 	// DB()
 	// str1 := "this is a [sample] [[string]] with [SOME] special words"
-	query := "create [user]"
-	// query := "add into [user] 'sojeb' 'sikder'"
+	// query := "create [user]"
+	query := "add [user] 'sojeb' 'sikder'"
 
 	// regex for brackets
 	reBracket := regexp.MustCompile(`\[([^\[\]]*)\]`)
@@ -27,21 +27,23 @@ func main() {
 
 func compile(text string, re *regexp.Regexp, reBracket *regexp.Regexp) {
 	extractDoc := Parser(text, reBracket)
-	// extractData := Parser(text, re)
+	extractData := Parser(text, re)
 	tokens := Tokenize(text)
-
-	// fmt.Println(extractDoc)
-	// fmt.Println(extractData)
-	// fmt.Println(tokens[0])
 
 	// crud oprations
 	switch tokens[0] {
 	case "create":
-		fmt.Println(extractDoc[0])
+		docName := extractDoc[0]
 		// create db document
-		createDbDoc("user")
+		createDbDoc(docName)
 	case "add":
-		fmt.Println("add")
+		docName := extractDoc[0]
+		data := extractData
+
+		for i := 0; i < len(data); i++ {
+			fmt.Println(data[i])
+			writeDataToDoc("db.json", docName, data[i])
+		}
 	default:
 		fmt.Println("Invalid commadn")
 
@@ -79,9 +81,9 @@ func Parser(text string, re *regexp.Regexp) []string {
 // create db document
 func createDbDoc(docName string) {
 	var db = map[string]string{}
-	db[docName] = "{}"
-	createDbfile()
-	appendDatatoDbfile("db.json", db["user"])
+	db[docName] = "{" + docName + ":{}}"
+	// createDbfile()
+	appendDataToDbfile("db.json", db[docName])
 }
 
 // create file for database
@@ -109,9 +111,24 @@ func readDbfile() {
 }
 
 // write data to database file
-func appendDatatoDbfile(filename string, content string) {
+func appendDataToDbfile(filename string, content string) {
 	file, _ := json.MarshalIndent(content, "", " ")
 	_ = ioutil.WriteFile(filename, file, 0644)
+}
+
+func writeDataToDoc(filename string, docName string, data any) {
+	file, _ := json.Marshal(data)
+
+	f, err := os.OpenFile(filename, os.O_RDWR|os.O_APPEND|os.O_CREATE, 0660)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(-1)
+	}
+	defer f.Close()
+
+	fmt.Fprintf(f, "%s\n", file)
+
+	// _ = ioutil.WriteFile(filename, file, 0644)
 }
 
 // cli based db operations
