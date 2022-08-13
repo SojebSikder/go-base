@@ -4,23 +4,27 @@ Simple database engine created with golang just for fun
 
 ## Usage
 
-run command from command line:
+Run command from command line:
 
 ```
 go run main.go cli
 ```
 
-run command from file
+Run command from file
 
 ```
 go run main.go run file.sql
 ```
 
-### Supported command:
+### Supported commands:
 
 - Create database
   ```sql
   create db [blog]
+  ```
+- Set database in sql file
+  ```sql
+  set db [blog]
   ```
 - Create document:
 
