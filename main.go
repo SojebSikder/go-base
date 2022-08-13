@@ -69,7 +69,7 @@ func main() {
 						fmt.Print("enter new database name -> ")
 						fmt.Scan(&text)
 						precompile(string("create db [" + text + "]"))
-						fmt.Println(" Database created: " + dbFileName)
+						fmt.Println("Database created: " + dbFileName)
 					} else {
 						fmt.Println("So you want to create later.")
 					}
