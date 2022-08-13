@@ -12,8 +12,8 @@ import (
 )
 
 func main() {
-	// query := "create [user]"
-	query := "add [user] 'sojeb' 'sikder'"
+	query := "create [user]"
+	// query := "add [user] 'sojeb' 'sikder'"
 
 	compile(query)
 }
@@ -78,7 +78,7 @@ func Parser(text string, re *regexp.Regexp) []string {
 // create db document
 func createDbDoc(docName string) {
 	var db = map[string]string{}
-	db[docName] = "{}"
+	db[docName] = ""
 	// createDbfile()
 	appendDataToDbfile("db.json", db)
 }
