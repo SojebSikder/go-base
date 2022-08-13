@@ -2,7 +2,9 @@ package main
 
 import (
 	"bufio"
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
 	"regexp"
@@ -12,12 +14,11 @@ import (
 func main() {
 	// DB()
 	// str1 := "this is a [sample] [[string]] with [SOME] special words"
-	// createDoc := "create [user]"
-	query := "add into [user] 'sojeb' 'sikder'"
+	query := "create [user]"
+	// query := "add into [user] 'sojeb' 'sikder'"
 
 	// regex for brackets
 	reBracket := regexp.MustCompile(`\[([^\[\]]*)\]`)
-
 	// regex for single quotes
 	re := regexp.MustCompile(`'([^']*)'`)
 
@@ -26,21 +27,24 @@ func main() {
 
 func compile(text string, re *regexp.Regexp, reBracket *regexp.Regexp) {
 	extractDoc := Parser(text, reBracket)
-	extractData := Parser(text, re)
-
+	// extractData := Parser(text, re)
 	tokens := Tokenize(text)
 
-	createDbDoc("user")
-	readDbfile()
-
-	fmt.Println(extractDoc)
-	fmt.Println(extractData)
-	fmt.Println(tokens[0])
+	// fmt.Println(extractDoc)
+	// fmt.Println(extractData)
+	// fmt.Println(tokens[0])
 
 	// crud oprations
 	switch tokens[0] {
+	case "create":
+		fmt.Println(extractDoc[0])
+		// create db document
+		createDbDoc("user")
 	case "add":
 		fmt.Println("add")
+	default:
+		fmt.Println("Invalid commadn")
+
 	}
 }
 
@@ -90,6 +94,7 @@ func createDbfile() {
 	emptyFile.Close()
 }
 
+// read database file
 func readDbfile() {
 	file, err := os.Open("db.json")
 	if err != nil {
@@ -105,17 +110,11 @@ func readDbfile() {
 
 // write data to database file
 func appendDatatoDbfile(filename string, content string) {
-	f, err := os.OpenFile(filename, os.O_RDWR|os.O_APPEND|os.O_CREATE, 0660)
-
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(-1)
-	}
-	defer f.Close()
-
-	fmt.Fprintf(f, "%s\n", content)
+	file, _ := json.MarshalIndent(content, "", " ")
+	_ = ioutil.WriteFile(filename, file, 0644)
 }
 
+// cli based db operations
 func DB() {
 
 	var cmd string
