@@ -30,7 +30,6 @@ func main() {
 
 	if len(os.Args) < 2 {
 		// run interactive mode
-		// fmt.Println("Welcome to simple db named as go-db")
 	} else {
 		arg := os.Args[1]
 		if arg == "version" {
@@ -56,8 +55,6 @@ func main() {
 			// first ask for database name
 			if dbFileName == "" {
 				fmt.Print("Select database: ")
-				// reader := bufio.NewReader(os.Stdin)
-				// dbName, _ := reader.Read() .ReadString('\n')
 				var dbName string
 				fmt.Scan(&dbName)
 				dbFileName = dbFileNameDir + "/" + strings.Trim(dbName, "\n") + ".json"
@@ -121,7 +118,6 @@ func compile(text string) {
 		fmt.Print(tokens[1])
 		if tokens[1] == "db" {
 			// create db file
-			fmt.Println("Creating database")
 			dbName := extractDoc[0]
 			createDbfile(dbFileNameDir + "/" + dbName + ".json")
 		} else {
@@ -197,7 +193,6 @@ func createDbfile(dbName string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println(emptyFile)
 	emptyFile.Close()
 }
 
