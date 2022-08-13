@@ -3,11 +3,14 @@ package lib
 import "encoding/json"
 
 // parse json | json decode
+// string to json
+// string -> json
 // var input = `{
 // 	"name": "John",
 // 	"age": 30,
 // 	"city": "New York"
 // }`
+//
 func ParsedJSON(input []byte, data any) {
 
 	err := json.Unmarshal([]byte(input), &data)
