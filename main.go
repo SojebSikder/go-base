@@ -14,12 +14,12 @@ import (
 
 func main() {
 	arg := os.Args[1]
-	fileName := os.Args[2]
 
 	// query := "create [user]"
 	// query := "add [user] 'sojeb' 'sikder'"
 
 	if arg == "run" {
+		fileName := os.Args[2]
 		_, err := os.Stat(fileName)
 
 		if errors.Is(err, os.ErrNotExist) {
@@ -33,6 +33,12 @@ func main() {
 			}
 			compile(string(content))
 		}
+	} else if arg == "cli" {
+		fmt.Println("Enter your query")
+		reader := bufio.NewReader(os.Stdin)
+		text, _ := reader.ReadString('\n')
+		fmt.Println("query executed")
+		compile(string(text))
 	}
 
 }
