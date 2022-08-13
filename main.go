@@ -20,10 +20,8 @@ func main() {
 	// app info
 	appName := "go-db"
 	version := "0.0.1"
-	usage := "go-db is a simple database application"
+	usage := "Welcome to go-db"
 	fmt.Printf("%s %s - %s\n", appName, version, usage)
-	//
-
 	//
 
 	if len(os.Args) < 2 {
@@ -33,6 +31,8 @@ func main() {
 		arg := os.Args[1]
 		if arg == "version" {
 			fmt.Println(appName + ": " + version)
+		} else if arg == "help" {
+			fmt.Println("go-db is a simple database application")
 		} else if arg == "run" {
 			fileName := os.Args[2]
 			_, err := os.Stat(fileName)

@@ -4,13 +4,13 @@ Simple database engine created with golang just for fun
 
 ## Usage
 
-run sql using command line:
+run command from command line:
 
 ```
 go run main.go cli
 ```
 
-run sql using file
+run command from file
 
 ```
 go run main.go run file.sql
