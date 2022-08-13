@@ -40,7 +40,7 @@ func main() {
 				if err != nil {
 					log.Fatal(err)
 				}
-				compile(string(content))
+				precompile(string(content))
 			}
 		} else if arg == "cli" {
 			for {
@@ -51,7 +51,7 @@ func main() {
 				if text == "exit\n" {
 					break
 				} else {
-					compile(string(text))
+					precompile(string(text))
 					fmt.Println("query executed")
 				}
 
@@ -62,6 +62,12 @@ func main() {
 		}
 	}
 
+}
+
+// compile query
+func precompile(text string) {
+	// tokens := Tokenize(text, " ")
+	compile(string(text))
 }
 
 // compile query
