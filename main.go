@@ -54,13 +54,7 @@ func main() {
 				reader := bufio.NewReader(os.Stdin)
 				text, _ := reader.ReadString('\n')
 
-				if text == "exit\n" {
-					break
-				} else {
-					precompile(string(text))
-					fmt.Println("query executed")
-				}
-
+				precompile(string(text))
 			}
 
 		} else {
@@ -97,7 +91,6 @@ func compile(text string) {
 		for i := 0; i < len(docName); i++ {
 			createDbDoc(docName[i])
 		}
-
 	case "insert":
 		// add data to db document
 		dbData := readJsonFile()
@@ -113,7 +106,6 @@ func compile(text string) {
 		writeDataToDoc(dbFileName, docName, arr)
 	default:
 		fmt.Println("Invalid commad")
-
 	}
 }
 
