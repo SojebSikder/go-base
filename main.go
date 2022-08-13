@@ -10,6 +10,8 @@ import (
 	"os"
 	"regexp"
 	"strings"
+
+	"github.com/sojebsikder/go-base/lib"
 	// "github.com/Jeffail/gabs"
 )
 
@@ -20,9 +22,9 @@ var dbFileName string
 func main() {
 
 	// app info
-	appName := "go-db"
+	appName := "go-base"
 	version := "0.0.1"
-	usage := "Welcome to go-db"
+	usage := "Welcome to go-base"
 	fmt.Printf("%s %s - %s\n", appName, version, usage)
 	//
 
@@ -64,22 +66,27 @@ func main() {
 
 				if os.IsNotExist(err) {
 					// create new database file
-					fmt.Print("db> ")
-					reader := bufio.NewReader(os.Stdin)
-					text, _ := reader.ReadString('\n')
-					precompile(string(text))
-					fmt.Println("Database selected: " + dbFileName)
+					ok := lib.YesNoPrompt("db not exist, create new one? (y/n): ")
+					if ok {
+						fmt.Print("enter new database name -> ")
+						var text string
+						fmt.Scan(&text)
+						precompile(string("create db [" + text + "]"))
+						fmt.Println("Database created: " + dbFileName)
+					} else {
+						fmt.Println("So you want to create later.")
+					}
 
 				} else {
 					fmt.Println("Database selected: " + dbFileName)
 				}
-			}
-
-			for {
-				fmt.Print("db> ")
-				reader := bufio.NewReader(os.Stdin)
-				text, _ := reader.ReadString('\n')
-				precompile(string(text))
+			} else {
+				for {
+					fmt.Print("db> ")
+					reader := bufio.NewReader(os.Stdin)
+					text, _ := reader.ReadString('\n')
+					precompile(string(text))
+				}
 			}
 
 		} else {
