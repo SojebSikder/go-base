@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -35,6 +36,7 @@ func main() {
 			fmt.Println(appName + ": " + version)
 		} else if arg == "help" {
 			fmt.Println("go-db is a simple database application")
+
 		} else if arg == "run" {
 			fileName := os.Args[2]
 			_, err := os.Stat(fileName)
@@ -42,7 +44,6 @@ func main() {
 			if errors.Is(err, os.ErrNotExist) {
 				fmt.Println("file does not exist")
 			} else {
-
 				content, err := ioutil.ReadFile(fileName)
 
 				if err != nil {
@@ -64,9 +65,11 @@ func main() {
 					// create new database file
 					ok := lib.YesNoPrompt("db not exist, create new one? (y/n): ")
 					if ok {
-						var text string
 						fmt.Print("enter new database name -> ")
+						var text string
 						fmt.Scan(&text)
+						// reader := bufio.NewReader(os.Stdin)
+						// text, _ := reader.ReadString('\n')
 						precompile(string("create db [" + text + "]"))
 						fmt.Println("Database created: " + dbFileName)
 					} else {
@@ -79,8 +82,10 @@ func main() {
 						// reader := bufio.NewReader(os.Stdin)
 						// text, _ := reader.ReadString('\n')
 						fmt.Print("db> ")
-						var text string
-						fmt.Scan(&text)
+						reader := bufio.NewReader(os.Stdin)
+						text, _ := reader.ReadString('\n')
+						// var text string
+						// fmt.Scan(&text)
 						precompile(string(text))
 					}
 
