@@ -12,15 +12,19 @@ import (
 	"strings"
 )
 
+// db file name
+var dbFileName string = "db.json"
+
 func main() {
 
+	// app info
 	appName := "go-db"
 	version := "0.0.1"
 	usage := "go-db is a simple database application"
 	fmt.Printf("%s %s - %s\n", appName, version, usage)
+	//
 
-	// query := "create [user]"
-	// query := "add [user] 'sojeb' 'sikder'"
+	//
 
 	if len(os.Args) < 2 {
 		// run interactive mode
@@ -106,7 +110,7 @@ func compile(text string) {
 			dbData[extractDoc[0]] = data[i]
 			arr = append(arr, dbData)
 		}
-		writeDataToDoc("db.json", docName, arr)
+		writeDataToDoc(dbFileName, docName, arr)
 	default:
 		fmt.Println("Invalid commad")
 
@@ -144,7 +148,7 @@ func createDbDoc(docName string) {
 	// dbData := readJsonFile()
 	// fmt.Println(dbData)
 	// arr := []any{}
-	appendDataToDbfile("db.json", db)
+	appendDataToDbfile(dbFileName, db)
 }
 
 // // create file for database
@@ -172,7 +176,7 @@ func createDbDoc(docName string) {
 // }
 
 func readJsonFile() map[string]string {
-	file, _ := ioutil.ReadFile("db.json")
+	file, _ := ioutil.ReadFile(dbFileName)
 	m := map[string]string{}
 	err := json.Unmarshal([]byte(file), &m)
 	if err != nil {
