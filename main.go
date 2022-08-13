@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"regexp"
@@ -44,7 +43,7 @@ func main() {
 			if errors.Is(err, os.ErrNotExist) {
 				fmt.Println("file does not exist")
 			} else {
-				content, err := ioutil.ReadFile(fileName)
+				content, err := os.ReadFile(fileName)
 
 				if err != nil {
 					log.Fatal(err)
@@ -232,7 +231,7 @@ func createDbfile(dbName string) {
 // }
 
 func readJsonFile() map[string]string {
-	file, _ := ioutil.ReadFile(dbFileName)
+	file, _ := os.ReadFile(dbFileName)
 	m := map[string]string{}
 	err := json.Unmarshal([]byte(file), &m)
 	if err != nil {
