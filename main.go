@@ -16,13 +16,15 @@ func main() {
 
 	appName := "go-db"
 	version := "0.0.1"
+	usage := "go-db is a simple database application"
+	fmt.Printf("%s %s - %s\n", appName, version, usage)
 
 	// query := "create [user]"
 	// query := "add [user] 'sojeb' 'sikder'"
 
 	if len(os.Args) < 2 {
 		// run interactive mode
-		fmt.Println("Welcome to simple db named as go-db")
+		// fmt.Println("Welcome to simple db named as go-db")
 	} else {
 		arg := os.Args[1]
 		if arg == "version" {
