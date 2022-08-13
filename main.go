@@ -80,11 +80,18 @@ func compile(text string) {
 		docName := extractDoc[0]
 		data := extractData
 
+		arr := []any{}
+
 		for i := 0; i < len(data); i++ {
-			fmt.Println(data[i])
 			dbData[extractDoc[0]] = data[i]
-			writeDataToDoc("db.json", docName, dbData)
+			arr = append(arr, dbData)
 		}
+		// fmt.Println(arr)
+		writeDataToDoc("db.json", docName, arr)
+		// for i := 0; i < len(data); i++ {
+		// 	dbData[extractDoc[0]] = data[i]
+		// 	writeDataToDoc("db.json", docName, dbData)
+		// }
 	default:
 		fmt.Println("Invalid commad")
 
@@ -116,8 +123,10 @@ func Parser(text string, re *regexp.Regexp) []string {
 func createDbDoc(docName string) {
 	var db = map[string]string{}
 	db[docName] = ""
+	arr := []any{}
+	arr = append(arr, db)
 	// createDbfile()
-	appendDataToDbfile("db.json", db)
+	appendDataToDbfile("db.json", arr)
 }
 
 // // create file for database
