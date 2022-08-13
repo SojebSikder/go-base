@@ -131,8 +131,8 @@ func compile(text string) {
 			dbName := extractDoc[0]
 			createDbfile(dbFileNameDir + "/" + dbName + ".json")
 		} else if tokens[1] == "doc" {
-
 			// create db document
+			// jsonFile :=
 			docName := extractDoc
 			for i := 0; i < len(docName); i++ {
 				createDbDoc(docName[i])
@@ -189,10 +189,11 @@ func createDbDoc(docName string) {
 	// Your string with list of objects
 	input := `[{"` + docName + `":""}]`
 
-	err := json.Unmarshal([]byte(input), &data)
-	if err != nil {
-		panic(err)
-	}
+	// err := json.Unmarshal([]byte(input), &data)
+	// if err != nil {
+	// 	panic(err)
+	// }
+	lib.ParsedJSON([]byte(input), &data)
 	// fmt.Println(data)
 
 	appendDataToDbfile(dbFileName, data)
