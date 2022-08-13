@@ -70,8 +70,10 @@ func compile(text string) {
 	switch tokens[0] {
 	case "create":
 		// create db document
-		docName := extractDoc[0]
-		createDbDoc(docName)
+		docName := extractDoc
+		for i := 0; i < len(docName); i++ {
+			createDbDoc(docName[i])
+		}
 	case "add":
 		// add data to db document
 		// fmt.Println(m["user"])
@@ -122,10 +124,11 @@ func Parser(text string, re *regexp.Regexp) []string {
 func createDbDoc(docName string) {
 	var db = map[string]string{}
 	db[docName] = ""
-	arr := []any{}
-	arr = append(arr, db)
+	// arr := []any{}
+	// arr = append(arr, db)
 	// createDbfile()
-	appendDataToDbfile("db.json", arr)
+	// appendDataToDbfile("db.json", arr)
+	appendDataToDbfile("db.json", db)
 }
 
 // // create file for database
@@ -163,9 +166,20 @@ func readJsonFile() map[string]string {
 }
 
 // write data to database file
-func appendDataToDbfile(filename string, content any) {
-	file, _ := json.MarshalIndent(content, "", " ")
-	_ = ioutil.WriteFile(filename, file, 0644)
+func appendDataToDbfile(filename string, data any) {
+	// file, _ := json.MarshalIndent(content, "", " ")
+	// _ = ioutil.WriteFile(filename, file, 0644)
+
+	file, _ := json.Marshal(data)
+
+	f, err := os.OpenFile(filename, os.O_RDWR|os.O_APPEND|os.O_CREATE, 0660)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(-1)
+	}
+	defer f.Close()
+
+	fmt.Fprintf(f, "%s\n", file)
 }
 
 func writeDataToDoc(filename string, docName string, data any) {
