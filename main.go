@@ -76,13 +76,13 @@ func main() {
 
 				} else {
 					fmt.Println("Database selected: " + dbFileName)
-				}
-			} else {
-				for {
-					fmt.Print("db> ")
-					reader := bufio.NewReader(os.Stdin)
-					text, _ := reader.ReadString('\n')
-					precompile(string(text))
+					for {
+						fmt.Print("db> ")
+						reader := bufio.NewReader(os.Stdin)
+						text, _ := reader.ReadString('\n')
+						precompile(string(text))
+					}
+
 				}
 			}
 
@@ -115,12 +115,11 @@ func compile(text string) {
 	// crud oprations
 	switch tokens[0] {
 	case "create":
-		fmt.Print(tokens[1])
 		if tokens[1] == "db" {
 			// create db file
 			dbName := extractDoc[0]
 			createDbfile(dbFileNameDir + "/" + dbName + ".json")
-		} else {
+		} else if tokens[1] == "doc" {
 
 			// create db document
 			docName := extractDoc

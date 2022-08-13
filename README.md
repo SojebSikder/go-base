@@ -25,7 +25,7 @@ go run main.go run file.sql
 - Create document:
 
   ```sql
-  create [user]
+  create doc [user]
   ```
 
 - Insert data into specific document:
