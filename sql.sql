@@ -1,1 +1,1 @@
-create [user];insert [user] 'sojeb' 'sikder'
+set db [db];create doc [user];insert [user] 'sojeb' 'sikder'

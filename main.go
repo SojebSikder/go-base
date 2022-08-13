@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bufio"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -77,9 +76,11 @@ func main() {
 				} else {
 					fmt.Println("Database selected: " + dbFileName)
 					for {
+						// reader := bufio.NewReader(os.Stdin)
+						// text, _ := reader.ReadString('\n')
 						fmt.Print("db> ")
-						reader := bufio.NewReader(os.Stdin)
-						text, _ := reader.ReadString('\n')
+						var text string
+						fmt.Scan(&text)
 						precompile(string(text))
 					}
 
@@ -114,6 +115,12 @@ func compile(text string) {
 
 	// crud oprations
 	switch tokens[0] {
+	case "set":
+		if tokens[1] == "db" {
+			// set database
+			dbName := extractDoc[0]
+			dbFileName = dbFileNameDir + "/" + dbName + ".json"
+		}
 	case "create":
 		if tokens[1] == "db" {
 			// create db file
@@ -182,7 +189,7 @@ func createDbDoc(docName string) {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(data)
+	// fmt.Println(data)
 
 	appendDataToDbfile(dbFileName, data)
 }
