@@ -13,10 +13,9 @@ import (
 
 func main() {
 	// query := "create [user]"
-	// query := "add [user] 'sojeb' 'sikder'"
+	query := "add [user] 'sojeb' 'sikder'"
 
-	// compile(query)
-	readJsonFile()
+	compile(query)
 }
 
 // compile query
@@ -38,8 +37,7 @@ func compile(text string) {
 		createDbDoc(docName)
 	case "add":
 		// add data to db document
-		// globalData := map[string]string{}
-		// globalData = readDbfile()
+		// fmt.Println(m["user"])
 		docName := extractDoc[0]
 		data := extractData
 
@@ -115,19 +113,14 @@ func readDbfile() {
 	}
 }
 
-func readJsonFile() {
-	file, err := os.Open("db.json")
+func readJsonFile() any{
+	file, _ := ioutil.ReadFile("db.json")
+	m := map[string]string{}
+	err := json.Unmarshal([]byte(file), &m)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
-	defer file.Close()
-
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		data := scanner.Text()
-		fmt.Println(data)
-	}
-
+	return m;
 }
 
 // write data to database file
