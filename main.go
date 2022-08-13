@@ -113,7 +113,6 @@ func Parser(text string, re *regexp.Regexp) []string {
 		element = strings.Trim(element, "'")
 		element = strings.Trim(element, "[")
 		element = strings.Trim(element, "]")
-		// fmt.Println(element)
 		arr = append(arr, element)
 	}
 	return arr
