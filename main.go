@@ -10,11 +10,12 @@ import (
 	"os"
 	"regexp"
 	"strings"
+	// "github.com/Jeffail/gabs"
 )
 
 // db file name
 var dbFileNameDir string = "db"
-var dbFileName string = ""
+var dbFileName string
 
 func main() {
 
@@ -53,10 +54,25 @@ func main() {
 			// first ask for database name
 			if dbFileName == "" {
 				fmt.Print("Select database: ")
-				reader := bufio.NewReader(os.Stdin)
-				dbName, _ := reader.ReadString('\n')
+				// reader := bufio.NewReader(os.Stdin)
+				// dbName, _ := reader.Read() .ReadString('\n')
+				var dbName string
+				fmt.Scan(&dbName)
 				dbFileName = dbFileNameDir + "/" + strings.Trim(dbName, "\n") + ".json"
-				fmt.Println(dbFileName)
+
+				_, err := os.Stat(dbFileName)
+
+				if os.IsNotExist(err) {
+					// create new database file
+					fmt.Print("db> ")
+					reader := bufio.NewReader(os.Stdin)
+					text, _ := reader.ReadString('\n')
+					precompile(string(text))
+					fmt.Println("Database selected: " + dbFileName)
+
+				} else {
+					fmt.Println("Database selected: " + dbFileName)
+				}
 			}
 
 			for {
