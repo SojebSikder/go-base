@@ -172,20 +172,30 @@ func Parser(text string, re *regexp.Regexp) []string {
 func createDbDoc(docName string) {
 	var db = map[string]string{}
 	db[docName] = ""
-	appendDataToDbfile(dbFileName, db)
+
+	// Unmarshall to slice
+	var data []any
+	// Your string with list of objects
+	input := `[{"` + docName + `":""}]`
+
+	err := json.Unmarshal([]byte(input), &data)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(data)
+
+	appendDataToDbfile(dbFileName, data)
 }
 
 // // create file for database
 func createDbfile(dbName string) {
 	// create directory if not exists
 	_, err := os.Stat(dbFileNameDir)
-
 	if os.IsNotExist(err) {
 		errDir := os.MkdirAll(dbFileNameDir, 0755)
 		if errDir != nil {
 			log.Fatal(err)
 		}
-
 	}
 
 	emptyFile, err := os.Create(dbName)
