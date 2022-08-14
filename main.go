@@ -1,3 +1,4 @@
+// Author : sojebsikder<sojebsikder@gmail.com>
 package main
 
 import (
@@ -165,22 +166,17 @@ func compile(text string) {
 			// fmt.Print(jsonDocs[i].(map[string]any)["user"])
 
 			if _, ok := jsonDocs[i].(map[string]any)[docName]; ok {
-				//do something here
-				for i := 0; i < len(property); i++ {
-					_property := property[i].(string)
+				for j := 0; j < len(property); j++ {
+					_property := property[j].(string)
 					_data := data[i].(string)
 					_map := map[string]string{_property: _data}
-					marge = append(marge, _map)
+
+					jsonDocs[i].(map[string]any)[docName] = _map
+					marge = append(marge, jsonDocs[i])
 				}
 			}
-
-			// if jsonDocs[i].(map[string]any)[docName] == docName {
-
-			// }
-
-			// writeData(dbFileName, marge)
 		}
-
+		writeData(dbFileName, marge)
 	default:
 		fmt.Println("Invalid commad")
 	}
