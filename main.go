@@ -255,7 +255,7 @@ func readJsonFile() ([]any, error) {
 	var data []any
 	error := lib.ParsedJSON(file, &data)
 	if error != nil {
-		return data, errors.New("Something went wrong")
+		return data, errors.New("something went wrong")
 	}
 	return data, nil
 }

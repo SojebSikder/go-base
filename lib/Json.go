@@ -1,23 +1,27 @@
 package lib
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"errors"
+)
 
 // parse json | json decode
 // string to json
 // string -> json
-// var input = `{
-// 	"name": "John",
-// 	"age": 30,
-// 	"city": "New York"
-// }`
 //
+//	var input = `{
+//		"name": "John",
+//		"age": 30,
+//		"city": "New York"
+//	}`
 func ParsedJSON(input []byte, data any) error {
 
 	err := json.Unmarshal([]byte(input), &data)
 	if err != nil {
-		panic(err)
+		// panic(err)
+		return errors.New("something went wrong")
 	}
-	return err
+	return nil
 }
 
 // string to json
