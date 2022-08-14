@@ -108,13 +108,16 @@ func precompile(text string) {
 
 // compile query
 func compile(text string) {
-	// regex for brackets
+	// regex for third brackets []
 	reBracket := regexp.MustCompile(`\[([^\[\]]*)\]`)
-	// regex for single quotes
-	re := regexp.MustCompile(`'([^']*)'`)
+	// regex for second backet {}
+	reProperty := regexp.MustCompile(`\{([^\{\}]*)\}`)
+	// regex for single quotes ''
+	reData := regexp.MustCompile(`'([^']*)'`)
 
 	extractDoc := Parser(text, reBracket)
-	extractData := Parser(text, re)
+	extractProperty := Parser(text, reProperty)
+	extractData := Parser(text, reData)
 	tokens := Tokenize(text, " ")
 
 	// crud oprations
@@ -123,13 +126,13 @@ func compile(text string) {
 	case "set":
 		if tokens[1] == "db" {
 			// set database
-			dbName := extractDoc[0]
+			dbName := extractDoc[0].(string)
 			dbFileName = dbFileNameDir + "/" + dbName + ".json"
 		}
 	case "drop":
 		if tokens[1] == "db" {
 			// drop db file
-			dbName := extractDoc[0]
+			dbName := extractDoc[0].(string)
 			deleteDbfile(dbFileNameDir + "/" + dbName + ".json")
 
 		}
@@ -137,33 +140,35 @@ func compile(text string) {
 	case "create":
 		if tokens[1] == "db" {
 			// create db file
-			dbName := extractDoc[0]
+			dbName := extractDoc[0].(string)
 			createDbfile(dbFileNameDir + "/" + dbName + ".json")
 		} else if tokens[1] == "doc" {
 			// create db document
 			docName := extractDoc
 			for i := 0; i < len(docName); i++ {
-				createDbDoc(docName[i])
+				createDbDoc(docName[i].(string))
 			}
 		}
 	// query for data
 	case "insert":
 		// add data to db document
-		dbData, _ := readJsonFile()
+		// dbData, _ := readJsonFile()
 
-		docName := extractDoc[0]
+		// docName := extractDoc[0].(string)
+		property := extractProperty
 		data := extractData
-		arr := []any{}
+		// arr := []any{}
 
-		// fmt.Println(dbData[0])
-		// fmt.Println("----")
-		// fmt.Println(data)
+		marge := append(property, data)
 
-		for i := 0; i < len(data); i++ {
-			dbData[0] = data[i]
-			arr = append(arr, dbData)
-		}
-		writeDataToDoc(dbFileName, docName, arr)
+		fmt.Println(marge)
+
+		// for i := 0; i < len(data); i++ {
+		// 	dbData[0] = data[i]
+		// 	arr = append(arr, dbData)
+		// 	fmt.Println(marge)
+		// }
+		// writeDataToDoc(dbFileName, docName, arr)
 	default:
 		fmt.Println("Invalid commad")
 	}
@@ -179,17 +184,41 @@ func Tokenize(text string, deli string) []string {
 }
 
 // parse query for brackets, single quote
-func Parser(text string, re *regexp.Regexp) []string {
-	var arr []string
+func Parser(text string, re *regexp.Regexp) []any {
+	var arr []any
 
 	submatchall := re.FindAllString(text, -1)
 	for _, element := range submatchall {
 		element = strings.Trim(element, "'")
 		element = strings.Trim(element, "[")
 		element = strings.Trim(element, "]")
+		element = strings.Trim(element, "{")
+		element = strings.Trim(element, "}")
 		arr = append(arr, element)
 	}
 	return arr
+}
+
+// insert data to document
+func InsertDataToDoc(docName string) {
+
+	var db = map[string]string{}
+	db[docName] = ""
+	// exsting data in db file
+	jsonDocs, error := readJsonFile()
+
+	if error != nil {
+		// Unmarshall to slice
+		var data []any
+		input := `[{"` + docName + `":""}]`
+		// Unmarshal into slice
+		lib.ParsedJSON([]byte(input), &data)
+		// write data to db file
+		writeData(dbFileName, data)
+	} else {
+		marge := append(jsonDocs, db)
+		writeData(dbFileName, marge)
+	}
 }
 
 // create db document
@@ -203,7 +232,7 @@ func createDbDoc(docName string) {
 	if error != nil {
 		// Unmarshall to slice
 		var data []any
-		input := `[{"` + docName + `":""}]`
+		input := `[{"` + docName + `":{}}]`
 		// Unmarshal into slice
 		lib.ParsedJSON([]byte(input), &data)
 		// write data to db file

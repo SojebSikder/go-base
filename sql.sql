@@ -1,1 +1,1 @@
-set db [db];create doc [user]
+set db [db];insert [user] {firstName} 'sojeb' {lastName} 'sikder'
