@@ -11,12 +11,13 @@ import "encoding/json"
 // 	"city": "New York"
 // }`
 //
-func ParsedJSON(input []byte, data any) {
+func ParsedJSON(input []byte, data any) error {
 
 	err := json.Unmarshal([]byte(input), &data)
 	if err != nil {
 		panic(err)
 	}
+	return err
 }
 
 // string to json

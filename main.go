@@ -149,7 +149,7 @@ func compile(text string) {
 	// query for data
 	case "insert":
 		// add data to db document
-		dbData := readJsonFile()
+		dbData, _ := readJsonFile()
 
 		docName := extractDoc[0]
 		data := extractData
@@ -198,18 +198,35 @@ func createDbDoc(docName string) {
 	var db = map[string]string{}
 	db[docName] = ""
 	// exsting data in db file
-	jsonDocs := readJsonFile()
+	jsonDocs, error := readJsonFile()
+
+	if error != nil {
+		// Unmarshall to slice
+		var data []any
+		input := `[{"` + docName + `":""}]`
+		// Unmarshal into slice
+		lib.ParsedJSON([]byte(input), &data)
+		// marge exsting data with new data
+		// marge := append(jsonDocs, data)
+		// write data to db file
+		writeData(dbFileName, data)
+	} else {
+		marge := append(jsonDocs, db)
+		writeData(dbFileName, marge)
+
+	}
+	// fmt.Println(marge)
 
 	// Unmarshall to slice
-	var data []any
+	// var data []any
 
-	input := `[{"` + docName + `":""}]`
-	// Unmarshal into slice
-	lib.ParsedJSON([]byte(input), &data)
+	// input := `[{"` + docName + `":""}]`
+	// // Unmarshal into slice
+	// lib.ParsedJSON([]byte(input), &data)
 	// marge exsting data with new data
-	marge := append(jsonDocs, data)
+	// marge := append(jsonDocs, data)
 	// write data to db file
-	writeData(dbFileName, marge)
+	// writeData(dbFileName, marge)
 
 }
 
@@ -249,11 +266,14 @@ func deleteDbfile(dbName string) {
 }
 
 // read db document from json file
-func readJsonFile() []any {
+func readJsonFile() ([]any, error) {
 	file, _ := os.ReadFile(dbFileName)
 	var data []any
-	lib.ParsedJSON(file, &data)
-	return data
+	error := lib.ParsedJSON(file, &data)
+	if error != nil {
+		return data, errors.New("Something went wrong")
+	}
+	return data, nil
 }
 
 // append data to database file
