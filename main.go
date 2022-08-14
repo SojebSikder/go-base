@@ -128,7 +128,7 @@ func compile(text string) {
 		}
 	case "drop":
 		if tokens[1] == "db" {
-			// create db file
+			// drop db file
 			dbName := extractDoc[0]
 			deleteDbfile(dbFileNameDir + "/" + dbName + ".json")
 
@@ -141,7 +141,6 @@ func compile(text string) {
 			createDbfile(dbFileNameDir + "/" + dbName + ".json")
 		} else if tokens[1] == "doc" {
 			// create db document
-			// jsonFile := readJsonFile()
 			docName := extractDoc
 			for i := 0; i < len(docName); i++ {
 				createDbDoc(docName[i])
@@ -195,6 +194,7 @@ func Parser(text string, re *regexp.Regexp) []string {
 
 // create db document
 func createDbDoc(docName string) {
+
 	var db = map[string]string{}
 	db[docName] = ""
 
@@ -210,7 +210,11 @@ func createDbDoc(docName string) {
 	lib.ParsedJSON([]byte(input), &data)
 	// fmt.Println(data)
 
-	appendDataToDbfile(dbFileName, data)
+	jsonDocs := readJsonFile()
+	marge := append(jsonDocs, data)
+
+	// appendDataToDbfile(dbFileName, marge)
+	writeData(dbFileName, marge)
 }
 
 // create file for database
@@ -256,11 +260,25 @@ func readJsonFile() []any {
 	return data
 }
 
-// write data to database file
+// append data to database file
 func appendDataToDbfile(filename string, data any) {
 	file, _ := json.Marshal(data)
 
 	f, err := os.OpenFile(filename, os.O_RDWR|os.O_APPEND|os.O_CREATE, 0660)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(-1)
+	}
+	defer f.Close()
+
+	fmt.Fprintf(f, "%s\n", file)
+}
+
+// write data without appending
+func writeData(filename string, data any) {
+	file, _ := json.Marshal(data)
+
+	f, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE|os.O_CREATE, 0660)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(-1)
