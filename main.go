@@ -197,24 +197,20 @@ func createDbDoc(docName string) {
 
 	var db = map[string]string{}
 	db[docName] = ""
+	// exsting data in db file
+	jsonDocs := readJsonFile()
 
 	// Unmarshall to slice
 	var data []any
-	// Your string with list of objects
+
 	input := `[{"` + docName + `":""}]`
-
-	// err := json.Unmarshal([]byte(input), &data)
-	// if err != nil {
-	// 	panic(err)
-	// }
+	// Unmarshal into slice
 	lib.ParsedJSON([]byte(input), &data)
-	// fmt.Println(data)
-
-	jsonDocs := readJsonFile()
+	// marge exsting data with new data
 	marge := append(jsonDocs, data)
-
-	// appendDataToDbfile(dbFileName, marge)
+	// write data to db file
 	writeData(dbFileName, marge)
+
 }
 
 // create file for database
