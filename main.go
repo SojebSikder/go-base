@@ -206,28 +206,12 @@ func createDbDoc(docName string) {
 		input := `[{"` + docName + `":""}]`
 		// Unmarshal into slice
 		lib.ParsedJSON([]byte(input), &data)
-		// marge exsting data with new data
-		// marge := append(jsonDocs, data)
 		// write data to db file
 		writeData(dbFileName, data)
 	} else {
 		marge := append(jsonDocs, db)
 		writeData(dbFileName, marge)
-
 	}
-	// fmt.Println(marge)
-
-	// Unmarshall to slice
-	// var data []any
-
-	// input := `[{"` + docName + `":""}]`
-	// // Unmarshal into slice
-	// lib.ParsedJSON([]byte(input), &data)
-	// marge exsting data with new data
-	// marge := append(jsonDocs, data)
-	// write data to db file
-	// writeData(dbFileName, marge)
-
 }
 
 // create file for database
