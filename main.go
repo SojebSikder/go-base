@@ -98,7 +98,7 @@ func main() {
 
 }
 
-// break whole text into statements
+// break whole text into statements using semiclon(;)
 func precompile(text string) {
 	tokens := Tokenize(text, ";")
 	for i := 0; i < len(tokens); i++ {
@@ -119,12 +119,14 @@ func compile(text string) {
 
 	// crud oprations
 	switch tokens[0] {
+	// query for db
 	case "set":
 		if tokens[1] == "db" {
 			// set database
 			dbName := extractDoc[0]
 			dbFileName = dbFileNameDir + "/" + dbName + ".json"
 		}
+	// query for doc
 	case "create":
 		if tokens[1] == "db" {
 			// create db file
@@ -138,6 +140,21 @@ func compile(text string) {
 				createDbDoc(docName[i])
 			}
 		}
+	case "drop":
+		if tokens[1] == "db" {
+			// create db file
+			dbName := extractDoc[0]
+			deleteDbfile(dbFileNameDir + "/" + dbName + ".json")
+
+		} else if tokens[1] == "doc" {
+			// create db document
+			// jsonFile := readJsonFile()
+			// docName := extractDoc
+			// for i := 0; i < len(docName); i++ {
+			// 	deleteDbDoc(docName[i])
+			// }
+		}
+	// query for data
 	case "insert":
 		// add data to db document
 		dbData := readJsonFile()
@@ -203,7 +220,7 @@ func createDbDoc(docName string) {
 	appendDataToDbfile(dbFileName, data)
 }
 
-// // create file for database
+// create file for database
 func createDbfile(dbName string) {
 	// create directory if not exists
 	_, err := os.Stat(dbFileNameDir)
@@ -214,13 +231,31 @@ func createDbfile(dbName string) {
 		}
 	}
 
-	emptyFile, err := os.Create(dbName)
-	if err != nil {
-		log.Fatal(err)
+	emptyFile, ferr := os.Create(dbName)
+	if ferr != nil {
+		log.Fatal(ferr)
 	}
 	emptyFile.Close()
 }
 
+// delete file for database
+func deleteDbfile(dbName string) {
+	// delete directory if not exists
+	_, err := os.Stat(dbFileNameDir)
+	if os.IsNotExist(err) {
+		errDir := os.MkdirAll(dbFileNameDir, 0755)
+		if errDir != nil {
+			log.Fatal(err)
+		}
+	}
+
+	ferr := os.Remove(dbName)
+	if ferr != nil {
+		log.Fatal(ferr)
+	}
+}
+
+// read db document from json file
 func readJsonFile() []any {
 	file, _ := os.ReadFile(dbFileName)
 	var data []any
