@@ -39,5 +39,5 @@ go run main.go run file.sql
 - Insert data into specific document:
 
   ```sql
-  insert [user] 'sojeb' 'sikder'
+  insert [user] {firstName} 'sojeb' {lastName} 'sikder'
   ```

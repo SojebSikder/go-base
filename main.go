@@ -152,28 +152,35 @@ func compile(text string) {
 	// query for data
 	case "insert":
 		// add data to db document
-		// dbData, _ := readJsonFile()
-
 		docName := extractDoc[0].(string)
 		property := extractProperty
 		data := extractData
 
-		arr := []any{}
-		// marge := append(property, data...)
+		// exsting data in db file
+		jsonDocs, _ := readJsonFile()
 
-		for i := 0; i < len(property); i++ {
-			_property := property[i].(string)
-			_data := data[i].(string)
-			_map := map[string]string{_property: _data}
-			arr = append(arr, _map)
+		marge := []any{}
+
+		for i := 0; i < len(jsonDocs); i++ {
+			// fmt.Print(jsonDocs[i].(map[string]any)["user"])
+
+			if _, ok := jsonDocs[i].(map[string]any)[docName]; ok {
+				//do something here
+				for i := 0; i < len(property); i++ {
+					_property := property[i].(string)
+					_data := data[i].(string)
+					_map := map[string]string{_property: _data}
+					marge = append(marge, _map)
+				}
+			}
+
+			// if jsonDocs[i].(map[string]any)[docName] == docName {
+
+			// }
+
+			// writeData(dbFileName, marge)
 		}
 
-		// for i := 0; i < len(data); i++ {
-		// 	dbData[0] = data[i]
-		// 	arr = append(arr, dbData)
-		// 	fmt.Println(marge)
-		// }
-		writeDataToDoc(dbFileName, docName, arr)
 	default:
 		fmt.Println("Invalid commad")
 	}
@@ -202,28 +209,6 @@ func Parser(text string, re *regexp.Regexp) []any {
 		arr = append(arr, element)
 	}
 	return arr
-}
-
-// insert data to document
-func InsertDataToDoc(docName string) {
-
-	var db = map[string]string{}
-	db[docName] = ""
-	// exsting data in db file
-	jsonDocs, error := readJsonFile()
-
-	if error != nil {
-		// Unmarshall to slice
-		var data []any
-		input := `[{"` + docName + `":""}]`
-		// Unmarshal into slice
-		lib.ParsedJSON([]byte(input), &data)
-		// write data to db file
-		writeData(dbFileName, data)
-	} else {
-		marge := append(jsonDocs, db)
-		writeData(dbFileName, marge)
-	}
 }
 
 // create db document
@@ -320,10 +305,6 @@ func writeData(filename string, data any) {
 	defer f.Close()
 
 	fmt.Fprintf(f, "%s\n", file)
-}
-
-func writeDataToDoc(filename string, docName string, data any) {
-	appendDataToDbfile(filename, data)
 }
 
 // CLI based simple db operations for store in memory
