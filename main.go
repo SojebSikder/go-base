@@ -154,21 +154,26 @@ func compile(text string) {
 		// add data to db document
 		// dbData, _ := readJsonFile()
 
-		// docName := extractDoc[0].(string)
+		docName := extractDoc[0].(string)
 		property := extractProperty
 		data := extractData
-		// arr := []any{}
 
-		marge := append(property, data)
+		arr := []any{}
+		// marge := append(property, data...)
 
-		fmt.Println(marge)
+		for i := 0; i < len(property); i++ {
+			_property := property[i].(string)
+			_data := data[i].(string)
+			_map := map[string]string{_property: _data}
+			arr = append(arr, _map)
+		}
 
 		// for i := 0; i < len(data); i++ {
 		// 	dbData[0] = data[i]
 		// 	arr = append(arr, dbData)
 		// 	fmt.Println(marge)
 		// }
-		// writeDataToDoc(dbFileName, docName, arr)
+		writeDataToDoc(dbFileName, docName, arr)
 	default:
 		fmt.Println("Invalid commad")
 	}
