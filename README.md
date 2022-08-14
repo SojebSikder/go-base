@@ -22,6 +22,10 @@ go run main.go run file.sql
   ```sql
   create db [blog]
   ```
+- Drop database
+  ```sql
+  drop db [blog]
+  ```
 - Select database in sql file
   ```sql
   set db [blog]

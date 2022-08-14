@@ -126,6 +126,13 @@ func compile(text string) {
 			dbName := extractDoc[0]
 			dbFileName = dbFileNameDir + "/" + dbName + ".json"
 		}
+	case "drop":
+		if tokens[1] == "db" {
+			// create db file
+			dbName := extractDoc[0]
+			deleteDbfile(dbFileNameDir + "/" + dbName + ".json")
+
+		}
 	// query for doc
 	case "create":
 		if tokens[1] == "db" {
@@ -139,20 +146,6 @@ func compile(text string) {
 			for i := 0; i < len(docName); i++ {
 				createDbDoc(docName[i])
 			}
-		}
-	case "drop":
-		if tokens[1] == "db" {
-			// create db file
-			dbName := extractDoc[0]
-			deleteDbfile(dbFileNameDir + "/" + dbName + ".json")
-
-		} else if tokens[1] == "doc" {
-			// create db document
-			// jsonFile := readJsonFile()
-			// docName := extractDoc
-			// for i := 0; i < len(docName); i++ {
-			// 	deleteDbDoc(docName[i])
-			// }
 		}
 	// query for data
 	case "insert":
