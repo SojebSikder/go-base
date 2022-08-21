@@ -116,12 +116,13 @@ func compile(text string) {
 	// regex for single quotes ''
 	reData := regexp.MustCompile(`'([^']*)'`)
 
+	// parsing
 	extractDoc := Parser(text, reBracket)
 	extractProperty := Parser(text, reProperty)
 	extractData := Parser(text, reData)
 	tokens := Tokenize(text, " ")
 
-	// crud oprations
+	// process main oprations
 	switch tokens[0] {
 	// query for db
 	case "set":
@@ -161,22 +162,48 @@ func compile(text string) {
 		jsonDocs, _ := readJsonFile()
 
 		marge := []any{}
+		var concatMap map[string]string
 
-		for i := 0; i < len(jsonDocs); i++ {
-			// fmt.Print(jsonDocs[i].(map[string]any)["user"])
+		for j := 0; j < len(property); j++ {
+			_property := property[j].(string)
+			_data := data[j].(string)
+			_map := map[string]string{_property: _data}
 
-			if _, ok := jsonDocs[i].(map[string]any)[docName]; ok {
-				for j := 0; j < len(property); j++ {
-					_property := property[j].(string)
-					_data := data[i].(string)
-					_map := map[string]string{_property: _data}
+			for i := 0; i < len(jsonDocs); i++ {
+				// fmt.Print(jsonDocs[i].(map[string]any)["user"])
 
-					jsonDocs[i].(map[string]any)[docName] = _map
-					marge = append(marge, jsonDocs[i])
+				if value, ok := jsonDocs[i].(map[string]any)[docName]; ok {
+					// TODO concat map
+					concatMap = _map
+					// value.(map[string]any)[docName] = _map
+					value.(map[string]any)[docName] = concatMap
+					marge = append(marge, value)
 				}
 			}
+
 		}
-		writeData(dbFileName, marge)
+
+		fmt.Println(marge)
+		// writeData(dbFileName, marge)
+
+		// for i := 0; i < len(jsonDocs); i++ {
+		// 	// fmt.Print(jsonDocs[i].(map[string]any)["user"])
+
+		// 	if value, ok := jsonDocs[i].(map[string]any)[docName]; ok {
+		// 		for j := 0; j < len(property); j++ {
+		// 			_property := property[j].(string)
+		// 			_data := data[j].(string)
+		// 			_map := map[string]string{_property: _data}
+
+		// 			fmt.Println(property)
+
+		// 			value.(map[string]any)[docName] = _map
+		// 			marge = append(marge, value)
+		// 		}
+		// 	}
+		// }
+		// fmt.Println(marge)
+		// writeData(dbFileName, marge)
 	default:
 		fmt.Println("Invalid commad")
 	}

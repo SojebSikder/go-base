@@ -18,26 +18,35 @@ go run main.go run file.sql
 
 ### Supported commands:
 
-- Create database
-  ```sql
-  create db [blog]
-  ```
-- Drop database
-  ```sql
-  drop db [blog]
-  ```
-- Select database
-  ```sql
-  set db [blog]
-  ```
-- Create document:
+- Database oparations
 
-  ```sql
-  create doc [user]
-  ```
+  - Create database
+    ```sql
+    create db [blog]
+    ```
+  - Drop database
+    ```sql
+    drop db [blog]
+    ```
+  - Select database
+    ```sql
+    set db [blog]
+    ```
 
-- Insert data into specific document:
+- Document oparations
 
-  ```sql
-  insert [user] {firstName} 'sojeb' {lastName} 'sikder'
-  ```
+  - Create document:
+
+    ```sql
+    create doc [user]
+    ```
+
+  - Insert data into document:
+
+    ```sql
+    insert [user] {firstName} 'sojeb' {lastName} 'sikder'
+    ```
+
+## How go-base works under the hood
+
+In the first place go-base takes query. Then go-base engine splits query into statement using semi-clone (;) seperator. Each statements goes to tokenizer for generating tokens. All the tokens goes to perser. Perser perse the statement with brackets, quotation delimiter etc. And all the parsed data goes to main operation unit for processing.
