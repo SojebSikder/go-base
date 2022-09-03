@@ -1,1 +1,1 @@
-set db [db];insert [user] {firstName} 'sojeb' {lastName} 'sikder'
+use db [db];insert [user] {firstName} 'sojeb' {lastName} 'sikder'

@@ -30,7 +30,7 @@ go run main.go run file.sql
     ```
   - Select database
     ```sql
-    set db [blog]
+    use db [blog]
     ```
 
 - Document oparations

@@ -125,7 +125,7 @@ func compile(text string) {
 	// process main oprations
 	switch tokens[0] {
 	// query for db
-	case "set":
+	case "use":
 		if tokens[1] == "db" {
 			// set database
 			dbName := extractDoc[0].(string)
