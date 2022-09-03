@@ -184,7 +184,7 @@ func compile(text string) {
 		}
 
 		fmt.Println(marge)
-		// writeData(dbFileName, marge)
+		writeData(dbFileName, marge)
 
 		// for i := 0; i < len(jsonDocs); i++ {
 		// 	// fmt.Print(jsonDocs[i].(map[string]any)["user"])
