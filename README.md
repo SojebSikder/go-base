@@ -1,16 +1,35 @@
 # go-base
 
-Simple database engine created with golang just for fun
+Simple database engine created with golang just for fun.
+
+**Note: Currently query based db not working properly, any kind of contributions are welcome.**
+
+### Todo:
+
+- ~~Create cli (querydb)~~
+- ~~Execute query file (querydb)~~
+- implement writing data (querydb)
+- implement b-tree for reading data (querydb)
 
 ## Usage
 
-Run command from command line:
+### In-memory key value based db
+
+Run simple key value db from command line:
+
+```
+go run main.go mapdb-cli
+```
+
+### query based db
+
+Run query on command line:
 
 ```
 go run main.go cli
 ```
 
-Run command from file
+Run query from file
 
 ```
 go run main.go run file.sql
@@ -30,7 +49,7 @@ go run main.go run file.sql
     ```
   - Select database
     ```sql
-    use db [blog]
+    set db [blog]
     ```
 
 - Document oparations
@@ -47,6 +66,6 @@ go run main.go run file.sql
     insert [user] {firstName} 'sojeb' {lastName} 'sikder'
     ```
 
-## How go-base works under the hood
+## How go-base query based db works under the hood
 
 In the first place go-base takes query. Then go-base engine splits query into statement using semi-clone (;) seperator. Each statements goes to tokenizer for generating tokens. All the tokens goes to perser. Perser perse the statement with brackets, quotation delimiter etc. And all the parsed data goes to main operation unit for processing.
