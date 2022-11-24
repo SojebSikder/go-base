@@ -10,16 +10,13 @@ import (
 	"github.com/sojebsikder/go-base/lib"
 )
 
-// db file name
-// var dbFileNameDir string = "db"
-// var dbFileName string
-
 func main() {
 
 	// app info
 	appName := "go-base"
 	version := "0.0.1"
 	usage := "Welcome to go-base"
+	description := "go-db is a simple database application"
 	fmt.Printf("%s %s - %s\n", appName, version, usage)
 	//
 
@@ -30,7 +27,7 @@ func main() {
 		if arg == "version" {
 			fmt.Println(appName + ": " + version)
 		} else if arg == "help" {
-			fmt.Println("go-db is a simple database application")
+			fmt.Println(description)
 
 		} else if arg == "run" {
 			fileName := os.Args[2]
