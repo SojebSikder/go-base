@@ -10,8 +10,8 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/sojebsikder/go-base/lib"
-	"github.com/sojebsikder/go-base/util"
+	"github.com/sojebsikder/go-base/src/lib"
+	"github.com/sojebsikder/go-base/src/util"
 	// "github.com/Jeffail/gabs"
 )
 

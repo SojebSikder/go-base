@@ -3,7 +3,7 @@ package mapdb
 import (
 	"fmt"
 
-	"github.com/sojebsikder/go-base/util"
+	"github.com/sojebsikder/go-base/src/util"
 )
 
 // CLI based simple db operations for store in memory

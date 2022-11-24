@@ -7,8 +7,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/sojebsikder/go-base/engine/mapdb"
-	"github.com/sojebsikder/go-base/engine/querydb"
+	"github.com/sojebsikder/go-base/src/engine/mapdb"
+	"github.com/sojebsikder/go-base/src/engine/querydb"
 )
 
 func main() {
