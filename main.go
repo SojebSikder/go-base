@@ -44,8 +44,6 @@ func main() {
 				}
 				querydb.Precompile(string(content))
 			}
-		} else if arg == "mapdb" {
-			mapdb.MapDB()
 		} else if arg == "querydb-cli" {
 			querydb.Cli()
 		} else if arg == "mapdb-cli" {

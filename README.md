@@ -18,7 +18,7 @@ Simple database engine created with golang just for fun.
 Run simple key value db from command line:
 
 ```
-go run main.go mapdb
+go run main.go mapdb-cli
 ```
 
 ### query based db
