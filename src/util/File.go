@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/sojebsikder/go-base/lib"
+	"github.com/sojebsikder/go-base/src/lib"
 )
 
 // write to disk and remove previous data
