@@ -13,9 +13,12 @@ func MapDB() {
 	var db = map[string]string{}
 	var filename = "db/db2.json"
 
+	// load data from disk
 	var data, _ = util.ReadJsonObjectDisk(filename)
-	fmt.Print(data)
-	db = data
+
+	if len(data) > 0 {
+		db = data
+	}
 
 	fmt.Println("Welcome to the simplest key-value memory database")
 	for {
