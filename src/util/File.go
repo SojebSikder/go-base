@@ -3,6 +3,7 @@ package util
 import (
 	// "errors"
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/sojebsikder/go-base/src/lib"
@@ -71,4 +72,25 @@ func ReadDisk(filename string) (any, error) {
 		return data, error
 	}
 	return data, nil
+}
+
+// create dir for database
+func CreateDir(dbFileNameDir string) {
+	// create directory if not exists
+	_, err := os.Stat(dbFileNameDir)
+	if os.IsNotExist(err) {
+		errDir := os.MkdirAll(dbFileNameDir, 0755)
+		if errDir != nil {
+			log.Fatal(err)
+		}
+	}
+}
+
+// create file for database
+func CreateFile(dbName string) {
+	emptyFile, ferr := os.Create(dbName)
+	if ferr != nil {
+		log.Fatal(ferr)
+	}
+	emptyFile.Close()
 }

@@ -2,16 +2,56 @@ package mapdb
 
 import (
 	"fmt"
+	"os"
+	"strings"
 
+	"github.com/sojebsikder/go-base/src/lib"
 	"github.com/sojebsikder/go-base/src/util"
 )
+
+// var filename = "db/db2.json"
+var dbFileNameDir string = "db"
+var dbFileName string
+
+// Interactive cli
+func Cli() {
+	// first ask for database name
+	if dbFileName == "" {
+		fmt.Print("Select database: ")
+		var dbName string
+		fmt.Scanln(&dbName)
+		dbFileName = dbFileNameDir + "/" + strings.Trim(dbName, "\n") + ".json"
+
+		_, err := os.Stat(dbFileName)
+
+		if os.IsNotExist(err) {
+			// create new database file
+			ok := lib.YesNoPrompt("db not exist, create new one? (y/n): ")
+			if ok {
+				fmt.Print("enter new database name -> ")
+				var text string
+				fmt.Scan(&text)
+				util.CreateDir(dbFileName)
+				util.CreateFile("db/" + text + ".json")
+				fmt.Println("Database created: " + dbFileName)
+			} else {
+				fmt.Println("So you want to create later.")
+			}
+
+		} else {
+			fmt.Println("Database selected: " + dbFileName)
+			MapDB()
+		}
+	}
+
+}
 
 // CLI based simple db operations for store in memory
 func MapDB() {
 
 	var cmd string
 	var db = map[string]string{}
-	var filename = "db/db2.json"
+	var filename = dbFileName
 
 	// load data from disk
 	var data, _ = util.ReadJsonObjectDisk(filename)

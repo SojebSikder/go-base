@@ -46,8 +46,10 @@ func main() {
 			}
 		} else if arg == "mapdb" {
 			mapdb.MapDB()
-		} else if arg == "cli" {
+		} else if arg == "querydb-cli" {
 			querydb.Cli()
+		} else if arg == "mapdb-cli" {
+			mapdb.Cli()
 		} else {
 			fmt.Println("Invalid command")
 		}
