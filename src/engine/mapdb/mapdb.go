@@ -11,7 +11,11 @@ func MapDB() {
 
 	var cmd string
 	var db = map[string]string{}
+	// var db = []any{}
 	var filename = "db/db2.json"
+
+	var data, _ = util.ReadDisk(filename)
+	fmt.Print(data)
 
 	fmt.Println("Welcome to the simplest key-value memory database")
 	for {
@@ -36,7 +40,7 @@ func MapDB() {
 
 				db[key] = value
 				fmt.Println("Key added")
-				util.WriteDisk(filename, db)
+				util.WriteJsonDisk(filename, db)
 			}
 
 		} else if cmd == "update" {
@@ -54,7 +58,7 @@ func MapDB() {
 
 				db[key] = value
 				fmt.Println("Key updated")
-				util.WriteDisk(filename, db)
+				util.WriteJsonDisk(filename, db)
 			} else {
 				fmt.Println("Key not exists")
 			}
@@ -75,7 +79,7 @@ func MapDB() {
 			if _, ok := db[key]; ok {
 				delete(db, key)
 				fmt.Println(key + " deleted")
-				util.WriteDisk(filename, db)
+				util.WriteJsonDisk(filename, db)
 			} else {
 				fmt.Println("Key not exists")
 			}

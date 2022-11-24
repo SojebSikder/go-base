@@ -149,7 +149,7 @@ func compile(text string) {
 		}
 
 		fmt.Println(marge)
-		util.WriteDisk(dbFileName, marge)
+		util.WriteJsonDisk(dbFileName, marge)
 
 		// for i := 0; i < len(jsonDocs); i++ {
 		// 	// fmt.Print(jsonDocs[i].(map[string]any)["user"])
@@ -214,10 +214,10 @@ func createDbDoc(docName string) {
 		// Unmarshal into slice
 		lib.ParsedJSON([]byte(input), &data)
 		// write data to db file
-		util.WriteDisk(dbFileName, data)
+		util.WriteJsonDisk(dbFileName, data)
 	} else {
 		marge := append(jsonDocs, db)
-		util.WriteDisk(dbFileName, marge)
+		util.WriteJsonDisk(dbFileName, marge)
 	}
 }
 
