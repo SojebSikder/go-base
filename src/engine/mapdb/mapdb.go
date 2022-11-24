@@ -11,11 +11,11 @@ func MapDB() {
 
 	var cmd string
 	var db = map[string]string{}
-	// var db = []any{}
 	var filename = "db/db2.json"
 
-	var data, _ = util.ReadDisk(filename)
+	var data, _ = util.ReadJsonObjectDisk(filename)
 	fmt.Print(data)
+	db = data
 
 	fmt.Println("Welcome to the simplest key-value memory database")
 	for {

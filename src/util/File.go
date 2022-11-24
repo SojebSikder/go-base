@@ -35,7 +35,35 @@ func ReadJsonDisk(filename string) ([]any, error) {
 	return data, nil
 }
 
+// read json object from disk
+func ReadJsonObjectDisk(filename string) (map[string]string, error) {
+	file, _ := os.ReadFile(filename)
+	var data map[string]string
+	error := lib.ParsedJSON(file, &data)
+	if error != nil {
+		// return data, errors.New("something went wrong")
+		return data, error
+	}
+	return data, nil
+}
+
+// write to disk and remove previous data
+func WriteDisk(filename string, data any) {
+	// file, _ := json.Marshal(data)
+	file := data
+
+	f, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE|os.O_CREATE, 0660)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(-1)
+	}
+	defer f.Close()
+
+	fmt.Fprintf(f, "%s\n", file)
+}
+
 // read data from disk
+
 func ReadDisk(filename string) (any, error) {
 	file, error := os.ReadFile(filename)
 	var data = string(file)
