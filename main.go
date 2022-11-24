@@ -4,9 +4,10 @@ package main
 import (
 	"errors"
 	"fmt"
-	"github.com/sojebsikder/go-base/lib"
 	"log"
 	"os"
+
+	"github.com/sojebsikder/go-base/lib"
 )
 
 // db file name
@@ -45,7 +46,7 @@ func main() {
 				}
 				lib.Precompile(string(content))
 			}
-		} else if arg == "map" {
+		} else if arg == "mapdb" {
 			lib.MapDB()
 		} else if arg == "cli" {
 			lib.Cli()

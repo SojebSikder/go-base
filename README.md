@@ -15,6 +15,11 @@ Run command from file
 ```
 go run main.go run file.sql
 ```
+Run simple key value db from command line:
+
+```
+go run main.go mapdb
+```
 
 ### Supported commands:
 
