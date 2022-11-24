@@ -31,8 +31,8 @@ func Cli() {
 				fmt.Print("enter new database name -> ")
 				var text string
 				fmt.Scan(&text)
-				util.CreateDir(dbFileName)
-				util.CreateFile("db/" + text + ".json")
+				util.CreateDir(dbFileNameDir)
+				util.CreateFile(dbFileNameDir + "/" + text + ".json")
 				fmt.Println("Database created: " + dbFileName)
 			} else {
 				fmt.Println("So you want to create later.")
