@@ -1,4 +1,4 @@
-package lib
+package querydb
 
 import (
 	"bufio"
@@ -9,6 +9,9 @@ import (
 	"os"
 	"regexp"
 	"strings"
+
+	"github.com/sojebsikder/go-base/lib"
+	"github.com/sojebsikder/go-base/util"
 	// "github.com/Jeffail/gabs"
 )
 
@@ -29,7 +32,7 @@ func Cli() {
 
 		if os.IsNotExist(err) {
 			// create new database file
-			ok := YesNoPrompt("db not exist, create new one? (y/n): ")
+			ok := lib.YesNoPrompt("db not exist, create new one? (y/n): ")
 			if ok {
 				fmt.Print("enter new database name -> ")
 				var text string
@@ -146,7 +149,7 @@ func compile(text string) {
 		}
 
 		fmt.Println(marge)
-		writeData(dbFileName, marge)
+		util.WriteDisk(dbFileName, marge)
 
 		// for i := 0; i < len(jsonDocs); i++ {
 		// 	// fmt.Print(jsonDocs[i].(map[string]any)["user"])
@@ -209,12 +212,12 @@ func createDbDoc(docName string) {
 		var data []any
 		input := `[{"` + docName + `":{}}]`
 		// Unmarshal into slice
-		ParsedJSON([]byte(input), &data)
+		lib.ParsedJSON([]byte(input), &data)
 		// write data to db file
-		writeData(dbFileName, data)
+		util.WriteDisk(dbFileName, data)
 	} else {
 		marge := append(jsonDocs, db)
-		writeData(dbFileName, marge)
+		util.WriteDisk(dbFileName, marge)
 	}
 }
 
@@ -257,7 +260,7 @@ func deleteDbfile(dbName string) {
 func readJsonFile() ([]any, error) {
 	file, _ := os.ReadFile(dbFileName)
 	var data []any
-	error := ParsedJSON(file, &data)
+	error := lib.ParsedJSON(file, &data)
 	if error != nil {
 		return data, errors.New("something went wrong")
 	}
@@ -269,20 +272,6 @@ func appendDataToDbfile(filename string, data any) {
 	file, _ := json.Marshal(data)
 
 	f, err := os.OpenFile(filename, os.O_RDWR|os.O_APPEND|os.O_CREATE, 0660)
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(-1)
-	}
-	defer f.Close()
-
-	fmt.Fprintf(f, "%s\n", file)
-}
-
-// write data without appending
-func writeData(filename string, data any) {
-	file, _ := json.Marshal(data)
-
-	f, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE|os.O_CREATE, 0660)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(-1)

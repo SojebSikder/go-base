@@ -1,7 +1,9 @@
-package lib
+package mapdb
 
 import (
 	"fmt"
+
+	"github.com/sojebsikder/go-base/util"
 )
 
 // CLI based simple db operations for store in memory
@@ -9,6 +11,7 @@ func MapDB() {
 
 	var cmd string
 	var db = map[string]string{}
+	var filename = "db/db2.json"
 
 	fmt.Println("Welcome to the simplest key-value memory database")
 	for {
@@ -33,6 +36,7 @@ func MapDB() {
 
 				db[key] = value
 				fmt.Println("Key added")
+				util.WriteDisk(filename, db)
 			}
 
 		} else if cmd == "update" {
@@ -50,6 +54,7 @@ func MapDB() {
 
 				db[key] = value
 				fmt.Println("Key updated")
+				util.WriteDisk(filename, db)
 			} else {
 				fmt.Println("Key not exists")
 			}
@@ -70,6 +75,7 @@ func MapDB() {
 			if _, ok := db[key]; ok {
 				delete(db, key)
 				fmt.Println(key + " deleted")
+				util.WriteDisk(filename, db)
 			} else {
 				fmt.Println("Key not exists")
 			}

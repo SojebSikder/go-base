@@ -7,7 +7,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/sojebsikder/go-base/lib"
+	"github.com/sojebsikder/go-base/engine/mapdb"
+	"github.com/sojebsikder/go-base/engine/querydb"
 )
 
 func main() {
@@ -41,12 +42,12 @@ func main() {
 				if err != nil {
 					log.Fatal(err)
 				}
-				lib.Precompile(string(content))
+				querydb.Precompile(string(content))
 			}
 		} else if arg == "mapdb" {
-			lib.MapDB()
+			mapdb.MapDB()
 		} else if arg == "cli" {
-			lib.Cli()
+			querydb.Cli()
 		} else {
 			fmt.Println("Invalid command")
 		}
